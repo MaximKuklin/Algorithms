@@ -1,0 +1,46 @@
+import copy
+from copy import deepcopy
+
+brackets = "(??)"
+temp = deepcopy(brackets)
+
+counter_open = counter_close = n = 0
+
+qindex =[]
+
+for i in brackets:
+    if i == '(':
+        counter_open += 1
+    if i == ')':
+        counter_close += 1
+    if i == '?':
+        qindex.append(n)
+    n += 1
+
+
+print(counter_open, "opened | ", counter_close, "closed |  ", "all: ", n)
+
+if n % 2 == 1 or counter_open > n/2 or counter_close > n/2:
+    print("NO WAY")
+    exit()
+
+print (qindex)
+
+
+
+ans = []
+while True:
+    if counter_open + counter_close == 2 * n:
+        print(ans)
+        break
+    if counter_open < n and '?' in ans:
+        ans.append('(')
+        counter_open += 1
+        continue
+    if counter_open > counter_close:
+        ans.append(')')
+        counter_close += 1
+        continue
+
+
+
