@@ -1,8 +1,36 @@
-import copy
 from copy import deepcopy
 
-brackets = "(??)"
-temp = deepcopy(brackets)
+def check2(arr):
+    balance = 0
+    size = len(arr)
+    for i in arr[::-1]:
+        if i=='(':
+            print ("yes")
+
+def checkBalance(arr,i):
+        balance = -1
+        for i in range(0, i):
+            if arr[i] == '(':
+                balance += 1
+            if arr[i] == ')':
+                balance -= 1
+        if balance < 0:
+            return False
+        else:
+            return True
+
+
+
+s = "??(?)?"
+brackets = []
+
+for i in s:
+    brackets.append(i)
+
+
+first = deepcopy(brackets)
+
+print ("K: ", first)
 
 counter_open = counter_close = n = 0
 
@@ -18,29 +46,68 @@ for i in brackets:
     n += 1
 
 
-print(counter_open, "opened | ", counter_close, "closed |  ", "all: ", n)
+print(counter_open, "opened | ", counter_close, "closed |  ", "all: ", n, '\n')
 
 if n % 2 == 1 or counter_open > n/2 or counter_close > n/2:
     print("NO WAY")
     exit()
 
-print (qindex)
 
-
-
-ans = []
 while True:
-    if counter_open + counter_close == 2 * n:
-        print(ans)
+    if counter_open + counter_close == n:
         break
-    if counter_open < n and '?' in ans:
-        ans.append('(')
+    if counter_open < n/2 and '?' in first:
+        j = first.index('?')
+        first[j] = '('
         counter_open += 1
         continue
     if counter_open > counter_close:
-        ans.append(')')
+        j = first.index('?')
+        first[j] = ')'
         counter_close += 1
         continue
 
+print(first)
+print(qindex)
+
+temp = deepcopy(first)
 
 
+print (temp)
+
+counter_open = counter_close = 0
+
+i = len(temp)
+
+while i != 0:
+    i-=1
+
+
+    if i in qindex and temp[i] == '(' and checkBalance(temp, i) is True:
+        print ("Nice")
+
+        # REPLACE IF ALL IS RIGHT
+        temp[i] = ')'
+        temp [i:n-1] = []
+        for r in temp:
+            if r == '(':
+                counter_open += 1
+            if r == ')':
+                counter_close += 1
+            if r == '?':
+                qindex.append(n)
+
+        while True:
+            if counter_open + counter_close == n:
+                break
+            if counter_open < n / 2 and i in qindex:
+                temp.append('(')
+                counter_open += 1
+                continue
+            if counter_open > counter_close and i in qindex:
+                temp.append(')')
+                counter_close += 1
+                continue
+        print (temp)
+        i = len(temp)-1
+        counter_open = counter_close = 0
